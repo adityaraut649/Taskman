@@ -17,9 +17,11 @@ export default function App() {
   }
 
   const updateTask = () => {
-
+        const newTask = {...tasks};
+        newTask(index)  = updateTask;
+        setTasks(newTask);
   }
-
+  
   const deleteTask = ()  => {
     
   }
