@@ -1,42 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import TaskFrom from './components/TaskFrom'
-import TaskList from './components/TaskList'
-import ProgressTracker from './components/ProgressTracker'
-
+import React, { useEffect, useState } from 'react' 
+import TaskFrom from './components/TaskFrom' 
+import TaskList from './components/TaskList' 
+import ProgressTracker from './components/ProgressTracker' 
+import './Style.css';
 
 export default function App() {
-
   const [tasks, setTasks] = useState([]);
 
-   useEffect(()=>{
-    localStorage.setItem("tasks",JSON.stringify(tasks));
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   });
 
   const addTask = (task) => {
     setTasks([...tasks, task])
   }
 
-  const updateTask = () => {
-        const newTask = {...tasks};
-        newTask(index)  = updateTask;
-        setTasks(newTask);
+  const updateTask = (updatedTask, index) => {
+    const newtask = [...tasks];
+    newtask[index] = updatedTask;
+    setTasks(newtask);
   }
-  
-  const deleteTask = ()  => {
-    
+  const deleteTask = (index) => {
+    setTasks(tasks.filter((_, i) => i != index))
   }
 
+  const clearTasks = () => {
+    setTasks([]);
+  }
   return (
     <div>
       <header>
-        <h1>TaskBuddy</h1>
-        <p><i>Your friendly Manager</i></p>
+        <h1>TaskMan</h1>
+        <p><i>Your friendly Task Manager</i></p>
       </header>
 
       <TaskFrom addTask={addTask} />
-      <TaskList tasks = {tasks} updateTask = {updateTask} deleteTask = {deleteTask}/>
-      <ProgressTracker />
-      <button>clear All Tasks</button>
+      <TaskList tasks={tasks}
+        updateTask={updateTask}
+        deleteTask={deleteTask} />
+      <ProgressTracker tasks={tasks} />
+
+      {tasks.length > 0 && (<button className='clear-btn'
+        onClick={clearTasks}>clear All Tasks</button>)}
+
     </div>
   )
 }
